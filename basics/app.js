@@ -1,8 +1,14 @@
 const http = require('http');
 
 const server = http.createServer((req, res) => {
+    const url = req.url;
 
-    console.log(req.url, req.method, req.headers);
+    if (url === '/') {
+        res.write('<html>');
+        res.write('<head><title>Enter message</title></head>');
+        res.write('<body><form action="/mess" method="POST"><input name="test"><br><br><input type ="submit" value ="Submit"></form></body>');
+        return res.write('</html>');
+    }
 
     res.setHeader('content-type', 'text/html');
     res.write('<html>');

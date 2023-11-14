@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 
+
 const server = http.createServer((req, res) => {
     const url = req.url;
     const method = req.method;
@@ -21,15 +22,20 @@ const server = http.createServer((req, res) => {
             body.push(chunk);
         });
 
-        req.on('end', () => {
+        return req.on('end', () => {
             const parsedBody = Buffer.concat(body).toString();
             const message = parsedBody.split('=')[1];
             console.log(message);
-            fs.writeFileSync('message.txt', message);
+
+            //Should use writeFile instead of writeFileSync because in the case this file is too big so it will suspend the lines of code behind it until it done => not suggest
+
+            fs.writeFile('message.txt', message, err => {
+                res.statusCode = 302;
+                res.setHeader('location', '/');
+                return res.end();
+            });
+
         });
-        res.statusCode = 302;
-        res.setHeader('location', '/');
-        return res.end();
     }
 
     res.setHeader('content-type', 'text/html');

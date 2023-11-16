@@ -51,9 +51,10 @@ res.end();
 //     someText: 'Some hard code text...',
 // };
 
+//it's now stored in module exports.
+
 
 //This is a shortcut for this syntax,
 //it's just an explicit shortcut supported by nodejs where now we also have multiple exports being merged together into one export,
 exports.handler = requestHandler;
 exports.someText = 'Some hard code text...';
-

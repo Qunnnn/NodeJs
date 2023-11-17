@@ -1,22 +1,10 @@
 const http = require('http');
 
-const server = http.createServer((req, res) => {
-    const url = req.url;
+// This one is not a global module so we want to add a local path to it with ./ and you can omit .js because nodejs will automatically attach this at the end.
+//now node will go ahead and look for a routes.js file in the same folder as app.js which it will find and in that file, it will look for module exports and see what's registered in there
 
-    
-    if (url === '/') {
-        res.write('<html>');
-        res.write('<head><title>Enter message</title></head>');
-        res.write('<body><form action="/mess" method="POST"><input name="test"><br><br><input type ="submit" value ="Submit"></form></body>');
-        return res.write('</html>');
-    }
+const routes = require('./routes');
 
-    res.setHeader('content-type', 'text/html');
-    res.write('<html>');
-    res.write('<head><title>My First Page</title></head>');
-    res.write('<body><h1>Hello from my NodeJs server</h1></body>');
-    res.write('</html>');
-    res.end();
-})
+const server = http.createServer(routes.handler);
 
 server.listen(3000);

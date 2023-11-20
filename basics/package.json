@@ -8,5 +8,8 @@
     "start": "node app.js"
   },
   "author": "Qun",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
 }

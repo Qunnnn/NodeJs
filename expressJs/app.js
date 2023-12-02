@@ -9,8 +9,8 @@ const errorRoutes = require('./routes/errorRoute');
 
 app.use(bodyParser.urlencoded({extended: true}),);
 
-app.use(adminRoutes);
 app.use(shopRoutes);    
+app.use(adminRoutes);
 app.use(errorRoutes);
 
 app.listen(3000);

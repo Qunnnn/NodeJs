@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}),);
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use(shopRoutes);    
-app.use('/admin',adminRoutes);
+app.use('/admin',adminRoutes.routes);
 app.use(errorRoutes);
 
 app.listen(3000);

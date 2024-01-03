@@ -20,13 +20,13 @@ module.exports = class Product {
         });
     }
 
-    static fetchAll() {
-        const p = path.join(path.dirname(process.main.filename), 'data', 'products.json');
+    static fetchAll(callback) {
+        const p = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json');
         fs.readFile(p, (err, fileContent) => {
             if (err) {
-                return [];
+                callback([]);
             }
-            return JSON.parse(fileContent);
+            callback(JSON.parse(fileContent));
         });
     }
 };

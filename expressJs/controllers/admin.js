@@ -13,18 +13,18 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  
+
   Product.create({
     title: title,
     imageUrl: imageUrl,
     price: price,
     description: description,
   }).then(result => {
-    console.log('created product');
+    res.redirect('/');
   }).catch(err => {
     console.log(err);
   })
-  
+
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -64,13 +64,13 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
+  Product.findAll.then(products => {
     res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',
       path: '/admin/products'
     });
-  });
+  }).catch(err => console.log(err));
 };
 
 exports.postDeleteProduct = (req, res, next) => {

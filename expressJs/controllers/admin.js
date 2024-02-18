@@ -62,9 +62,9 @@ exports.postEditProduct = (req, res, next) => {
   updatedProduct.save();
   res.redirect('/admin/products');
 };
-
+//
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then(products => {
+  Product.findAll().then(products => { 
     res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',

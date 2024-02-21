@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
@@ -32,14 +33,17 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
-  Product.findByPk(prodId).then(product => {
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
-      editing: editMode,
-      product: product
-    });
-  }).catch(err => console.log(err));
+  req.user.getProducts({ where: { id: prodId } })
+    // Product.findByPk(prodId)
+    .then(products => {
+      const product = products[0];
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: product
+      });
+    }).catch(err => console.log(err));
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -61,7 +65,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then(products => {
+  req.user.getProducts().then(products => {
     res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',
@@ -72,7 +76,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findByPk(prodId).then(product => product.destroy()).then(() =>{
+  Product.findByPk(prodId).then(product => product.destroy()).then(() => {
     console.log('Deleted Product succsessfully');
     res.redirect('/admin/products');
   }).catch(err => console.log(err));

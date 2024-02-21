@@ -21,7 +21,7 @@ app.use((req, res, next) => {
         req.user = user;
         next();
     }).catch(err => console.log(err));
-})
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -29,6 +29,7 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 Product.belongsTo(User, { constrants: true, onDelete: 'CASCADE' });
+User.hasMany(Product);
 
 sequelize.sync(
     // {force: true} we do not always create table

@@ -34,11 +34,11 @@ User.hasMany(Product);
 Product.belongsTo(User, { constrants: true, onDelete: 'CASCADE' });
 User.hasOne(Cart);
 Cart.belongsTo(User);
-Cart.belongsToMany(Product, { through : CartItem});
-Product.belongsToMany(Cart, { through : CartItem});
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize.sync(
-    {force: true} //we do not always create table
+    { force: true } //we do not always create table
 ).then(
     result => {
         return User.findByPk(1);
@@ -49,7 +49,8 @@ sequelize.sync(
     }
     return user;
 }).then(user => {
-    console.log(user);
+    return user.createCart();
+}).then(() => {
     app.listen(3000);
 }).catch(err => { console.log(err) });
 

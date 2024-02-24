@@ -45,7 +45,7 @@ Order.belongsToMany(Product, {through : OrderItem});
 Product.belongsToMany(Order, {through : OrderItem});
 
 sequelize.sync(
-    { force: true } //we do not always create table
+   // { force: true } //we do not always create table
 ).then(
     result => {
         return User.findByPk(1);

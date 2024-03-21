@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 
-exports.getProducts = (req, res, next) => {
+exports.getProducts = (req, res) => {
   Product.fetchAll()
   .then(products => {
     res.render('shop/product-list', {
@@ -11,7 +11,7 @@ exports.getProducts = (req, res, next) => {
   }).catch(err => console.log(err));
 };
 
-exports.getProduct = (req, res, next) => {
+exports.getProduct = (req, res) => {
   const prodId = req.params.productId;
 
   Product.findById(prodId)
@@ -26,7 +26,7 @@ exports.getProduct = (req, res, next) => {
 
 };
 
-exports.getIndex = (req, res, next) => {
+exports.getIndex = (req, res) => {
   Product.fetchAll().
   then(products => {
     res.render('shop/index', {
@@ -37,7 +37,7 @@ exports.getIndex = (req, res, next) => {
   }).catch(err => console.log(err));
 };
 
-exports.getCart = (req, res, next) => {
+exports.getCart = (req, res) => {
   req.user.getCart()
   .then(products  =>  {
       res.render('shop/cart', {
@@ -49,14 +49,14 @@ exports.getCart = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postCart = (req, res, next) => {
+exports.postCart = (req, res) => {
   const prodId = req.body.productId;
 
   Product.findById(prodId)
   .then(product => {
     return req.user.addToCart(product);
   })
-  .then(result => {
+  .then(() => {
     res.redirect('/cart');
   });
   // let fetchedCart;
@@ -93,7 +93,7 @@ exports.postCart = (req, res, next) => {
 
 };
 
-exports.postCartDeleteProduct = (req, res, next) => {
+exports.postCartDeleteProduct = (req, res) => {
   const prodId = req.body.productId;
 
   req.user.deleteItemFromCart(prodId)
@@ -103,7 +103,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postOrder = (req, res, next) => {
+exports.postOrder = (req, res) => {
   req.user.addOrder()
     .then(()=> {
       res.redirect('/orders');
@@ -112,7 +112,7 @@ exports.postOrder = (req, res, next) => {
 }
 
 
-exports.getOrders = (req, res, next) => {
+exports.getOrders = (req, res) => {
   req.user
     .getOrders({ include: ['products'] })
     .then(orders => {
